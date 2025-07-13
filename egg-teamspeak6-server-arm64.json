@@ -1,0 +1,120 @@
+{
+    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PANEL",
+    "meta": {
+        "version": "PLCN_v1",
+        "update_url": null
+    },
+    "exported_at": "2025-07-13T20:45:14+00:00",
+    "name": "Teamspeak 6 Server ARM64",
+    "author": "panel@example.com",
+    "uuid": "f2e68e91-bb4a-493b-aa79-888f50ba6947",
+    "description": "VoIP software designed with security in mind, featuring crystal clear voice quality, endless customization options, and scalabilty up to thousands of simultaneous users.",
+    "tags": [
+        "voice"
+    ],
+    "features": [],
+    "docker_images": {
+        "ARM": "ghcr.io\/ptero-eggs\/yolks:box64"
+    },
+    "file_denylist": [],
+    "startup": "box64  .\/tsserver --default-voice-port={{SERVER_PORT}} --db-plugin={{DATABASE_PLUGIN}} --db-host={{DATABASE_HOST}} --db-port={{DATABASE_PORT}} --db-name={{DATABASE_NAME}} --db-username={{DATABASE_USERNAME}} --db-password={{DATABASE_PASSWORD}} --db-connections={{DATABASE_CONNECTIONS}}",
+    "config": {
+        "files": "{}",
+        "startup": "{\n    \"done\": \"listening on 0.0.0.0:9987\"\n}",
+        "logs": "{}",
+        "stop": "^C"
+    },
+    "scripts": {
+        "installation": {
+            "script": "#!\/bin\/ash\r\n# TS6 Server Installation Script\r\n#\r\n# Server Files: \/mnt\/server\r\n\r\nif [ -z ${TS_VERSION} ] || [ ${TS_VERSION} == latest ]; then\r\n    TS_VERSION=$(curl -sSL https:\/\/api.github.com\/repos\/teamspeak\/teamspeak6-server\/releases\/latest | jq '.tag_name')\r\n    LATEST_URL=$(curl -sSL https:\/\/api.github.com\/repos\/teamspeak\/teamspeak6-server\/releases\/latest | jq -r '.assets.[0].browser_download_url')\r\nfi\r\n\r\necho ${TS_VERSION} ${LATEST_URL}\r\ncd \/mnt\/server\r\n\r\necho -e \"Installing Teamspeak server version ${TS_VERSION} from ${LATEST_URL}\" \r\ncurl -L ${LATEST_URL} | tar -xvj --strip-components=1\r\nchmod +x tsserver",
+            "container": "ghcr.io\/parkervcp\/installers:alpine",
+            "entrypoint": "ash"
+        }
+    },
+    "variables": [
+        {
+            "name": "Database Plugin",
+            "description": "Specifies the database plugin to use (e.g., sqlite3, mariadb).",
+            "env_variable": "DATABASE_PLUGIN",
+            "default_value": "sqlite3",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": [
+                "required"
+            ],
+            "sort": 1
+        },
+        {
+            "name": "Database connections",
+            "description": "Number of connections to establish to the database (Default: 10).\n",
+            "env_variable": "DATABASE_CONNECTIONS",
+            "default_value": "10",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": [
+                "min:1"
+            ],
+            "sort": 7
+        },
+        {
+            "name": "Database host",
+            "description": "The hostname or IP address of your database server.\n",
+            "env_variable": "DATABASE_HOST",
+            "default_value": "",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": [
+                "nullable"
+            ],
+            "sort": 2
+        },
+        {
+            "name": "Database name",
+            "description": "The name of the database to use.",
+            "env_variable": "DATABASE_NAME",
+            "default_value": "",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": [
+                "nullable"
+            ],
+            "sort": 4
+        },
+        {
+            "name": "Database password",
+            "description": "The password for database authentication.\n",
+            "env_variable": "DATABASE_PASSWORD",
+            "default_value": "",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": [
+                "nullable"
+            ],
+            "sort": 6
+        },
+        {
+            "name": "Database port",
+            "description": "The port used to connect to your database server.",
+            "env_variable": "DATABASE_PORT",
+            "default_value": "",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": [
+                "nullable"
+            ],
+            "sort": 3
+        },
+        {
+            "name": "Database username",
+            "description": "The username for database authentication.",
+            "env_variable": "DATABASE_USERNAME",
+            "default_value": "",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": [
+                "nullable"
+            ],
+            "sort": 5
+        }
+    ]
+}
