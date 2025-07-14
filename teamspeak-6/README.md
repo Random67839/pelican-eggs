@@ -24,7 +24,7 @@ Ports required to run the server in a table format. Some ports are optional, you
 You can see server config and variables from [teamspeak/teamspeak6-server/CONFIG.md](https://github.com/teamspeak/teamspeak6-server/blob/main/CONFIG.md).
 
 ### ARM64
-* The arm64 may not perform as expected due to the amd64 to arm emulaton. Server tested with Hetzner ARM 2vcore -vps with avg. puzzle precompute time 2000ms.
+* The arm64 may not perform as expected due to the amd64 to arm emulaton. Server tested with Hetzner ARM 2vcore -vps with avg. puzzle precompute time ~2000ms and with Raspberry Pi 4B 2GB ~5500ms.
 
 ### Warranty 
 No support shall be provided, you may fork eggs if something does not work or if you desire.
